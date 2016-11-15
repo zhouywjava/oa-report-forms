@@ -1,0 +1,86 @@
+html {
+	overflow-y:hidden !important;	
+}
+
+body {
+	font-family: "Arial","sans-serif","微软雅黑","黑体","宋体";
+	margin:0 auto;
+}
+
+.hiddenDiv {
+	display: none;
+}
+
+.pageHeader {
+	height:70px;
+	padding-top: 10px;	
+}
+
+.pageHeader .easyui-datebox {
+	width:100px;	
+}
+
+.pageHeader .pageToolbar {
+	margin-top:10px;
+	margin-bottom:5px;
+}
+
+
+
+.xy-footer {
+	height: 30px;
+	overflow:hidden;
+	font-family: 微软雅黑;
+}
+
+#xy-footer{
+	font-family: "Arial","sans-serif","微软雅黑","黑体","宋体";
+	font-size:13px;
+	border: none;
+	text-align: center;
+}
+
+.dlgForm {
+	margin:0;
+	padding:10px 30px;
+}
+
+.dlgFormTitle {
+	font-size: 14px;
+	font-weight: bold;
+	padding: 5px 0;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #ccc;
+}
+
+.dlgFormItem {
+	margin-bottom: 5px;
+}
+
+.dlgFormItem label {
+	display: inline-block;
+	width: 80px;
+}
+
+.dlgFormItem input {
+	width: 160px;
+}
+
+.dlgFormItem select {
+	width: 160px;
+}
+
+.dlgFormItem .xyradio {
+	width: 20px;
+}
+.password {
+	height: 37px;
+    width: 230px;
+    float: right;
+}
+.tabs-panels .panel .panel-body {
+	overflow-y:hidden !important;
+}
+/*.datagrid-body {
+	overflow-x:auto !important;
+}*/

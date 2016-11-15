@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+     http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd
+     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd"
+	default-autowire="byName">
+
+	<!-- ========================================配置数据源========================================= -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${test.jdbc.driverClassName}" />
+		<property name="url" value="${test.jdbc.url}" />
+		<property name="username" value="${test.jdbc.username}" />
+		<property name="password" value="${test.jdbc.password}" />
+		<!-- 初始化连接大小 -->
+		<property name="initialSize" value="0" />
+		<!-- 连接池最大使用连接数量 -->
+		<property name="maxActive" value="20" />
+		<!-- 连接池最大空闲 -->
+		<property name="maxIdle" value="20" />
+		<!-- 连接池最小空闲 -->
+		<property name="minIdle" value="0" />
+		<!-- 获取连接最大等待时间 -->
+		<property name="maxWait" value="60000" />
+
+		<property name="defaultAutoCommit" value="true"></property>
+	</bean>
+     <!-- <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean"> 
+		<property name="jndiName"> <value>jdbc/sms_ds</value> </property> 
+	</bean> -->
+	<!-- ========================================针对myBatis的配置项============================== -->
+	<!-- 配置sqlSessionFactory -->
+	<!-- <bean id="msgSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		实例化sqlSessionFactory时需要使用上述配置好的数据源以及SQL映射文件
+		<property name="dataSource" ref="dataSource" />
+		使用log4j进行日志记录不会运行mybatis自身规则
+		 <property name="configLocation" value="classpath:mybatis-config.xml"></property> 
+		自动扫描mapper目录下的所有SQL映射的xml文件
+		<property name="mapperLocations" value="classpath:com/zhiye/dao/*.xml" />
+		<property name="typeAliasesPackage" value="com.zhiye.model" />
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageHelper">
+                    <property name="properties">
+                        <value>
+                            dialect=mysql
+                        </value>
+                    </property>
+                </bean>
+            </array>
+        </property>		
+	</bean> -->
+	
+	<!-- 配置扫描器 -->
+	<!-- <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		扫描me.gacl.dao这个包以及它的子包下的所有映射接口类
+		<property name="basePackage" value="com.zhiye.dao" />
+		<property name="sqlSessionFactoryBeanName" value="msgSqlSessionFactory" />
+	</bean> -->
+
+	<!-- 配置Spring的事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- 注解方式配置事物 -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+
+	<!-- enable autowire -->
+	<context:annotation-config />
+
+	<!-- enable component scanning (beware that this does not enable mapper scanning!) -->
+	<context:component-scan base-package="com.zhiye" />
+	
+	<!-- SpringMVC上传文件时，需要配置MultipartResolver处理器 -->  
+	<bean id="multipartResolver"  
+    class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
+	    <property name="defaultEncoding" value="UTF-8" />  
+	    <!-- 指定所上传文件的总大小不能超过10485760000B。注意maxUploadSize属性的限制不是针对单个文件，而是所有文件的容量之和 -->  
+	    <property name="maxUploadSize" value="1048576"></property>  
+	    <property name="maxInMemorySize" value="40960"></property>  
+	</bean>  
+
+</beans>

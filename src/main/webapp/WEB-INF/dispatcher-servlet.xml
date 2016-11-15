@@ -1,0 +1,121 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.2.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+	http://www.springframework.org/schema/mvc 
+	http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+	http://www.springframework.org/schema/util 
+	http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+
+	<context:component-scan base-package="com.zhiye.web.controller" />
+
+	<!-- 基于Form表单的身份验证过滤器 -->
+	<!-- <bean id="authcFilter" class="com.zhiye.web.filter.FormAuthFilter">
+		<property name="usernameParam" value="username" />
+		<property name="passwordParam" value="password" />
+		<property name="rememberMeParam" value="rememberMe" />
+		<property name="failureKeyAttribute" value="error" />
+	</bean>
+	
+	<bean id="captchaValidateFilter"
+		class="com.zhiye.web.filter.CaptchaValidateFilter">
+		<property name="jcaptchaEbabled" value="true" />
+		<property name="jcaptchaParam" value="captcha" />
+		<property name="failureKeyAttribute" value="error" />
+	</bean>  -->
+
+	<!-- 会话管理器 -->
+<!--     <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager"> -->
+<!--         <property name="globalSessionTimeout" value="600000"/> -->
+<!--     </bean> -->
+
+<!-- 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/login" />
+		<property name="filters">
+			<util:map>
+				<entry key="authc" value-ref="authcFilter" />
+				<entry key="captchaValidate" value-ref="captchaValidateFilter" />
+			</util:map>
+		</property>  		
+		<property name="successUrl" value="/index" />
+		<property name="unauthorizedUrl" value="/login" />
+		<property name="filterChainDefinitions">
+			<value>
+				/static/** = anon
+				/ocx/** = anon
+				/captcha* = anon
+				/register/validateEmail.do = captchaValidate
+				/register/** = anon	
+				/forgetPsw/** = anon
+				/public/** = anon											
+				/login = anon
+				/kickout = anon
+				/checkSession = anon
+				/doLogin = captchaValidate
+				/** = authc,kickoutSessionControl
+			</value>
+		</property>
+	</bean> -->
+
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="resourceRealm" />
+	</bean>
+
+	<bean id="resourceRealm" class="com.zhiye.web.auth.ResourceRealm" />
+
+	<!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+
+	<!-- 开启Shiro的注解(如@RequiresRoles,@RequiresPermissions),需借助SpringAOP扫描使用Shiro注解的类,并在必要时进行安全逻辑验证 -->
+	<!-- 配置以下两个bean即可实现此功能 -->
+	<bean
+		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+		depends-on="lifecycleBeanPostProcessor" />
+	<bean
+		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
+
+	<context:annotation-config />
+
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="false">
+            <!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
+            <bean id="fastJsonHttpMessageConverter" class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>text/html;charset=UTF-8</value>
+                        <value>application/json;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+    
+	<mvc:resources mapping="/static/**" location="/WEB-INF/static/" />
+    <mvc:resources mapping="/ocx/**" location="/ocx/" />
+    <mvc:resources mapping="/webcontent/**" location="/webcontent/" />
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/WEB-INF/views/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+	
+	<!-- SpringMVC上传文件时，需要配置MultipartResolver处理器 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+</beans>
