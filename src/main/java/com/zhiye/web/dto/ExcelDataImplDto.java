@@ -94,7 +94,11 @@ public class ExcelDataImplDto extends BaseDataDto{
 	@ExcelVOAttribute(name = "大区", column = "AA")
 	private String area;
 	
+	@ExcelVOAttribute(name = "数据源", column = "AB")
+	private String datasource;
  
+	@ExcelVOAttribute(name = "UUID", column = "AC")
+	private String uuid;
 
 	public String getId() {
 		return id;
@@ -418,12 +422,20 @@ public class ExcelDataImplDto extends BaseDataDto{
 		this.area = area;
 	}
 
+	public String getDatasource() {
+		return datasource;
+	}
 
+	public void setDatasource(String datasource) {
+		this.datasource = datasource;
+	}
 
-	@Override
-	public String toString() {
-		return "ExcelDataExcle [id=" + id
-				+ ", stage=" + stage + ", toString()=" + super.toString() + "]";
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 
 }

@@ -3,6 +3,7 @@ package com.zhiye.service;
 import java.util.List;
 
 import com.zhiye.web.dto.ExcelDataImplDto;
+import com.zhiye.web.dto.ExcelDataTotalDto;
 import com.zhiye.web.dto.ResponseDto;
 /**
  * 
@@ -18,8 +19,12 @@ public interface IExcelDataImputService {
 	/**
 	 * 导入excel数据
 	 * @param list 导入的数据列表
-	 * @param type 0:按创建时间统计,1:按计划完成时间统计
 	 * @return
 	 */
-	ResponseDto importExcelData(List<ExcelDataImplDto> list,String type);
+	ResponseDto importExcelData(List<ExcelDataImplDto> list);
+	/**
+	 * 导出excel汇总数据
+	 * @return
+	 */
+	List<ExcelDataTotalDto> expExcelDataTotal();
 }

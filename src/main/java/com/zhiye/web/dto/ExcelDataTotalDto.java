@@ -20,28 +20,28 @@ public class ExcelDataTotalDto extends BaseDataDto{
 	private String area;
 	
 	@ExcelVOAttribute(name = "对象", column = "C")
-	private String Object;
+	private String object;
 	
 	@ExcelVOAttribute(name = "当月完成率", column = "D")
-	private String monthCompleteRate;
+	private Double monthCompleteRate;
 	
 	@ExcelVOAttribute(name = "当月按时率", column = "E")
-	private String monthInTimeRate;
+	private Double monthInTimeRate;
 
 	@ExcelVOAttribute(name = "完成", column = "F")
-	private String completeNum;
+	private Double completeNum;
 	
 	@ExcelVOAttribute(name = "暂缓", column = "G")
-	private String postphoneNum;
+	private Double postphoneNum;
 	
 	@ExcelVOAttribute(name = "否决", column = "H")
-	private String rejectNum;
+	private Double rejectNum;
 	
 	@ExcelVOAttribute(name = "在执行", column = "I")
-	private String progressNum;
+	private Double progressNum;
 	
 	@ExcelVOAttribute(name = "总数", column = "J")
-	private String total;
+	private Double total;
 
 	public String getId() {
 		return id;
@@ -60,66 +60,66 @@ public class ExcelDataTotalDto extends BaseDataDto{
 	}
 
 	public String getObject() {
-		return Object;
+		return object;
 	}
 
 	public void setObject(String object) {
-		Object = object;
+		this.object = object;
 	}
 
-	public String getMonthCompleteRate() {
+	public Double getMonthCompleteRate() {
 		return monthCompleteRate;
 	}
 
-	public void setMonthCompleteRate(String monthCompleteRate) {
+	public void setMonthCompleteRate(Double monthCompleteRate) {
 		this.monthCompleteRate = monthCompleteRate;
 	}
 
-	public String getMonthInTimeRate() {
+	public Double getMonthInTimeRate() {
 		return monthInTimeRate;
 	}
 
-	public void setMonthInTimeRate(String monthInTimeRate) {
+	public void setMonthInTimeRate(Double monthInTimeRate) {
 		this.monthInTimeRate = monthInTimeRate;
 	}
 
-	public String getCompleteNum() {
+	public Double getCompleteNum() {
 		return completeNum;
 	}
 
-	public void setCompleteNum(String completeNum) {
+	public void setCompleteNum(Double completeNum) {
 		this.completeNum = completeNum;
 	}
 
-	public String getPostphoneNum() {
+	public Double getPostphoneNum() {
 		return postphoneNum;
 	}
 
-	public void setPostphoneNum(String postphoneNum) {
+	public void setPostphoneNum(Double postphoneNum) {
 		this.postphoneNum = postphoneNum;
 	}
 
-	public String getRejectNum() {
+	public Double getRejectNum() {
 		return rejectNum;
 	}
 
-	public void setRejectNum(String rejectNum) {
+	public void setRejectNum(Double rejectNum) {
 		this.rejectNum = rejectNum;
 	}
 
-	public String getProgressNum() {
+	public Double getProgressNum() {
 		return progressNum;
 	}
 
-	public void setProgressNum(String progressNum) {
+	public void setProgressNum(Double progressNum) {
 		this.progressNum = progressNum;
 	}
 
-	public String getTotal() {
+	public Double getTotal() {
 		return total;
 	}
 
-	public void setTotal(String total) {
+	public void setTotal(Double total) {
 		this.total = total;
 	}
 	

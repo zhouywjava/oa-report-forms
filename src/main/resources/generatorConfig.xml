@@ -1,23 +1,48 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">  
 <generatorConfiguration>
-	<!-- 引入配置文件 -->
-	<properties resource="DbConfig.properties" />
-   
-    <!-- 指定数据连接驱动jar地址 -->  
-    <classPathEntry location="D:/mysql-connector-java-5.1.18.jar" />  
-    
-	<context id="mycontext">
-		<jdbcConnection driverClass="${test.jdbc.driverClassName}" connectionURL="${test.jdbc.url}"
-			userId="${test.jdbc.username}" password="${test.jdbc.password}" />
-			
-		<javaModelGenerator targetPackage="com.xypay.msg.model" targetProject="msgmgr" />
-			
-		<sqlMapGenerator targetPackage="com.xypay.msg.dao" targetProject="msgmgr" />
-		<javaClientGenerator targetPackage="com.xypay.msg.dao"
-			targetProject="msgmgr" type="XMLMAPPER" />
-		<table schema="" tableName="msg_chan_inf">
-<!-- 			<columnOverride column="???" property="???" /> -->
-		</table>
-	</context>
+    <classPathEntry
+            location="F:/ojdbc6.jar"/>
+    <context id="my" defaultModelType="flat" targetRuntime="MyBatis3">
+        <commentGenerator>
+            <property name="suppressDate" value="true"/>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver"
+                        connectionURL="jdbc:oracle:thin:@//192.168.1.41:1521/zoesys" userId="scott"
+                        password="tiger"/>
+
+        <javaModelGenerator targetPackage="com.zhiye.model"
+                            targetProject="F:/testworkspace/oa-report-forms/src/main/java/">
+            <property name="enableSubPackages" value="false"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="./src/main/resources/com/zhiye/dao"
+                         targetProject="F:/testworkspace/oa-report-forms">
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+        <javaClientGenerator targetPackage="com.zhiye.dao"
+                             targetProject="F:/testworkspace/oa-report-forms/src/main/java/" type="XMLMAPPER">
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+
+        <!--<table tableName="T_FEE_AGTBILL" domainObjectName="FeeAgentBill"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"/>-->
+        <!-- tables -->
+        <table schema="" tableName="OA_REQUIREMENT_INFO" domainObjectName="OaReuirementInfo"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+            <!--<columnRenamingRule searchString="^D_"
+                                replaceString=""/>-->
+        </table>
+
+    </context>
 </generatorConfiguration>

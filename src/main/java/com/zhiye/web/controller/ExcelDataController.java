@@ -7,7 +7,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.ServletOutputStream;
@@ -23,6 +22,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.zhiye.aop.SysControllerLog;
 import com.zhiye.common.excel.ExcelUtil;
+import com.zhiye.common.secure.UUIDGenerator;
 import com.zhiye.common.time.TimeUtil;
 import com.zhiye.constants.Constant;
 import com.zhiye.constants.ErrorCode;
@@ -92,7 +92,10 @@ public class ExcelDataController extends BaseController {
 					error+="未导入：第"+ errorRow +"行存在空的大区或产品名称或状态未导入\n";
 				}else{
 					j++;
-					impList.add(((ExcelDataImplDto)list.get(i)));
+					ExcelDataImplDto addType = (ExcelDataImplDto)list.get(i);
+					addType.setDatasource(type);
+					addType.setUuid(UUIDGenerator.getUUID());
+					impList.add(addType);					
 				}
 			}
 			ResponseDto responseDto = new ResponseDto(); 
@@ -106,10 +109,11 @@ public class ExcelDataController extends BaseController {
 			responseDto.setMsg(error);
 			//===========导入文件校验与解析 end==========
 			//数据进一步处理
-			excelDataImputService.importExcelData(impList,type);
+			excelDataImputService.importExcelData(impList);
 			return responseDto;
         } catch (Exception e1) {  
-        	return new ResponseDto(false, ErrorCode.SYSTEM_ERROR);  
+        	//return new ResponseDto(false, ErrorCode.SYSTEM_ERROR);  
+        	throw new RuntimeException(e1.getMessage());
         }  
 	}
 	/**
@@ -118,7 +122,7 @@ public class ExcelDataController extends BaseController {
 	 */
 	@RequestMapping("expExcelData.json")
 	@ResponseBody
-	public ResponseDto expSms(
+	public ResponseDto expExcelData(
 			HttpServletRequest request,HttpServletResponse response) {
 		BufferedInputStream bis = null;
         BufferedOutputStream bos = null;
@@ -129,7 +133,7 @@ public class ExcelDataController extends BaseController {
 			// 创建工具类
 			ExcelUtil<ExcelDataTotalDto> util = new ExcelUtil<ExcelDataTotalDto>(ExcelDataTotalDto.class);
 			//汇总计算
-			List<ExcelDataTotalDto> list = new LinkedList<ExcelDataTotalDto>();
+			List<ExcelDataTotalDto> list = excelDataImputService.expExcelDataTotal();
 			// 导出
 			util.exportExcel(list, "OA需求处理情况汇总表", os); 
 	        

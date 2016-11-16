@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhiye.dao.OaReuirementInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zhiye.model.OaReuirementInfo" >
+    <id column="ORI_UUID" property="oriUuid" jdbcType="VARCHAR" />
+    <result column="ORI_ID" property="oriId" jdbcType="VARCHAR" />
+    <result column="ORI_STAGE" property="oriStage" jdbcType="VARCHAR" />
+    <result column="ORI_TYPE" property="oriType" jdbcType="VARCHAR" />
+    <result column="ORI_PRODUCTNAME" property="oriProductname" jdbcType="VARCHAR" />
+    <result column="ORI_CUSNAME" property="oriCusname" jdbcType="VARCHAR" />
+    <result column="ORI_TITLE" property="oriTitle" jdbcType="VARCHAR" />
+    <result column="ORI_KEYWORD" property="oriKeyword" jdbcType="VARCHAR" />
+    <result column="ORI_DESCRIBE" property="oriDescribe" jdbcType="VARCHAR" />
+    <result column="ORI_ADVICE" property="oriAdvice" jdbcType="VARCHAR" />
+    <result column="ORI_PRIORITY" property="oriPriority" jdbcType="VARCHAR" />
+    <result column="ORI_PRIORITYMEMO" property="oriPrioritymemo" jdbcType="VARCHAR" />
+    <result column="ORI_CREATER" property="oriCreater" jdbcType="VARCHAR" />
+    <result column="ORI_CREATERTIME" property="oriCreatertime" jdbcType="TIMESTAMP" />
+    <result column="ORI_CREATEDEPT" property="oriCreatedept" jdbcType="VARCHAR" />
+    <result column="ORI_PROJECTTEAM" property="oriProjectteam" jdbcType="VARCHAR" />
+    <result column="ORI_STATUS" property="oriStatus" jdbcType="VARCHAR" />
+    <result column="ORI_HANDLER" property="oriHandler" jdbcType="VARCHAR" />
+    <result column="ORI_SOVLER" property="oriSovler" jdbcType="VARCHAR" />
+    <result column="ORI_PUBLISHER" property="oriPublisher" jdbcType="VARCHAR" />
+    <result column="ORI_PUBLISHTIME" property="oriPublishtime" jdbcType="TIMESTAMP" />
+    <result column="ORI_PLANENDTIME" property="oriPlanendtime" jdbcType="TIMESTAMP" />
+    <result column="ORI_LATERENDTIME" property="oriLaterendtime" jdbcType="TIMESTAMP" />
+    <result column="ORI_REALENDTIME" property="oriRealendtime" jdbcType="TIMESTAMP" />
+    <result column="ORI_HANDLETIME" property="oriHandletime" jdbcType="TIMESTAMP" />
+    <result column="ORI_SCHEDULE" property="oriSchedule" jdbcType="VARCHAR" />
+    <result column="ORI_RCSTATUS" property="oriRcstatus" jdbcType="VARCHAR" />
+    <result column="ORI_AREA" property="oriArea" jdbcType="VARCHAR" />
+    <result column="ORI_DATASOURCE" property="oriDatasource" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="totalResult" type="com.zhiye.web.dto.ExcelDataTotalDto" >
+    <result column="oriId" property="id" jdbcType="VARCHAR" />
+    <result column="oriArea" property="area" jdbcType="VARCHAR" />
+    <result column="oriObject" property="object" jdbcType="VARCHAR" />
+    <result column="oriMonthCompleteRate" property="monthCompleteRate" jdbcType="DOUBLE" />
+    <result column="oriMonthInTimeRate" property="monthInTimeRate" jdbcType="DOUBLE" />
+    <result column="oriCompleteNum" property="completeNum" jdbcType="DOUBLE" />
+    
+    <result column="oriPostphoneNum" property="postphoneNum" jdbcType="DOUBLE" />
+    <result column="oriRejectNum" property="rejectNum" jdbcType="DOUBLE" />
+    
+    <result column="oriProgressNum" property="progressNum" jdbcType="DOUBLE" />
+    <result column="oriTotal" property="total" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ORI_UUID, ORI_ID, ORI_STAGE, ORI_TYPE, ORI_PRODUCTNAME, ORI_CUSNAME, ORI_TITLE, ORI_KEYWORD, 
+    ORI_DESCRIBE, ORI_ADVICE, ORI_PRIORITY, ORI_PRIORITYMEMO, ORI_CREATER, ORI_CREATERTIME, 
+    ORI_CREATEDEPT, ORI_PROJECTTEAM, ORI_STATUS, ORI_HANDLER, ORI_SOVLER, ORI_PUBLISHER, 
+    ORI_PUBLISHTIME, ORI_PLANENDTIME, ORI_LATERENDTIME, ORI_REALENDTIME, ORI_HANDLETIME, 
+    ORI_SCHEDULE, ORI_RCSTATUS, ORI_AREA, ORI_DATASOURCE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from OA_REQUIREMENT_INFO
+    where ORI_UUID = #{oriUuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from OA_REQUIREMENT_INFO
+    where ORI_UUID = #{oriUuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zhiye.model.OaReuirementInfo" >
+    insert into OA_REQUIREMENT_INFO (ORI_UUID, ORI_ID, ORI_STAGE, 
+      ORI_TYPE, ORI_PRODUCTNAME, ORI_CUSNAME, 
+      ORI_TITLE, ORI_KEYWORD, ORI_DESCRIBE, 
+      ORI_ADVICE, ORI_PRIORITY, ORI_PRIORITYMEMO, 
+      ORI_CREATER, ORI_CREATERTIME, ORI_CREATEDEPT, 
+      ORI_PROJECTTEAM, ORI_STATUS, ORI_HANDLER, 
+      ORI_SOVLER, ORI_PUBLISHER, ORI_PUBLISHTIME, 
+      ORI_PLANENDTIME, ORI_LATERENDTIME, ORI_REALENDTIME, 
+      ORI_HANDLETIME, ORI_SCHEDULE, ORI_RCSTATUS, 
+      ORI_AREA, ORI_DATASOURCE)
+    values (#{oriUuid,jdbcType=VARCHAR}, #{oriId,jdbcType=VARCHAR}, #{oriStage,jdbcType=VARCHAR}, 
+      #{oriType,jdbcType=VARCHAR}, #{oriProductname,jdbcType=VARCHAR}, #{oriCusname,jdbcType=VARCHAR}, 
+      #{oriTitle,jdbcType=VARCHAR}, #{oriKeyword,jdbcType=VARCHAR}, #{oriDescribe,jdbcType=VARCHAR}, 
+      #{oriAdvice,jdbcType=VARCHAR}, #{oriPriority,jdbcType=VARCHAR}, #{oriPrioritymemo,jdbcType=VARCHAR}, 
+      #{oriCreater,jdbcType=VARCHAR}, #{oriCreatertime,jdbcType=TIMESTAMP}, #{oriCreatedept,jdbcType=VARCHAR}, 
+      #{oriProjectteam,jdbcType=VARCHAR}, #{oriStatus,jdbcType=VARCHAR}, #{oriHandler,jdbcType=VARCHAR}, 
+      #{oriSovler,jdbcType=VARCHAR}, #{oriPublisher,jdbcType=VARCHAR}, #{oriPublishtime,jdbcType=TIMESTAMP}, 
+      #{oriPlanendtime,jdbcType=TIMESTAMP}, #{oriLaterendtime,jdbcType=TIMESTAMP}, #{oriRealendtime,jdbcType=TIMESTAMP}, 
+      #{oriHandletime,jdbcType=TIMESTAMP}, #{oriSchedule,jdbcType=VARCHAR}, #{oriRcstatus,jdbcType=VARCHAR}, 
+      #{oriArea,jdbcType=VARCHAR}, #{oriDatasource,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhiye.model.OaReuirementInfo" >
+    insert into OA_REQUIREMENT_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="oriUuid != null" >
+        ORI_UUID,
+      </if>
+      <if test="oriId != null" >
+        ORI_ID,
+      </if>
+      <if test="oriStage != null" >
+        ORI_STAGE,
+      </if>
+      <if test="oriType != null" >
+        ORI_TYPE,
+      </if>
+      <if test="oriProductname != null" >
+        ORI_PRODUCTNAME,
+      </if>
+      <if test="oriCusname != null" >
+        ORI_CUSNAME,
+      </if>
+      <if test="oriTitle != null" >
+        ORI_TITLE,
+      </if>
+      <if test="oriKeyword != null" >
+        ORI_KEYWORD,
+      </if>
+      <if test="oriDescribe != null" >
+        ORI_DESCRIBE,
+      </if>
+      <if test="oriAdvice != null" >
+        ORI_ADVICE,
+      </if>
+      <if test="oriPriority != null" >
+        ORI_PRIORITY,
+      </if>
+      <if test="oriPrioritymemo != null" >
+        ORI_PRIORITYMEMO,
+      </if>
+      <if test="oriCreater != null" >
+        ORI_CREATER,
+      </if>
+      <if test="oriCreatertime != null" >
+        ORI_CREATERTIME,
+      </if>
+      <if test="oriCreatedept != null" >
+        ORI_CREATEDEPT,
+      </if>
+      <if test="oriProjectteam != null" >
+        ORI_PROJECTTEAM,
+      </if>
+      <if test="oriStatus != null" >
+        ORI_STATUS,
+      </if>
+      <if test="oriHandler != null" >
+        ORI_HANDLER,
+      </if>
+      <if test="oriSovler != null" >
+        ORI_SOVLER,
+      </if>
+      <if test="oriPublisher != null" >
+        ORI_PUBLISHER,
+      </if>
+      <if test="oriPublishtime != null" >
+        ORI_PUBLISHTIME,
+      </if>
+      <if test="oriPlanendtime != null" >
+        ORI_PLANENDTIME,
+      </if>
+      <if test="oriLaterendtime != null" >
+        ORI_LATERENDTIME,
+      </if>
+      <if test="oriRealendtime != null" >
+        ORI_REALENDTIME,
+      </if>
+      <if test="oriHandletime != null" >
+        ORI_HANDLETIME,
+      </if>
+      <if test="oriSchedule != null" >
+        ORI_SCHEDULE,
+      </if>
+      <if test="oriRcstatus != null" >
+        ORI_RCSTATUS,
+      </if>
+      <if test="oriArea != null" >
+        ORI_AREA,
+      </if>
+      <if test="oriDatasource != null" >
+        ORI_DATASOURCE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="oriUuid != null" >
+        #{oriUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="oriId != null" >
+        #{oriId,jdbcType=VARCHAR},
+      </if>
+      <if test="oriStage != null" >
+        #{oriStage,jdbcType=VARCHAR},
+      </if>
+      <if test="oriType != null" >
+        #{oriType,jdbcType=VARCHAR},
+      </if>
+      <if test="oriProductname != null" >
+        #{oriProductname,jdbcType=VARCHAR},
+      </if>
+      <if test="oriCusname != null" >
+        #{oriCusname,jdbcType=VARCHAR},
+      </if>
+      <if test="oriTitle != null" >
+        #{oriTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="oriKeyword != null" >
+        #{oriKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="oriDescribe != null" >
+        #{oriDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="oriAdvice != null" >
+        #{oriAdvice,jdbcType=VARCHAR},
+      </if>
+      <if test="oriPriority != null" >
+        #{oriPriority,jdbcType=VARCHAR},
+      </if>
+      <if test="oriPrioritymemo != null" >
+        #{oriPrioritymemo,jdbcType=VARCHAR},
+      </if>
+      <if test="oriCreater != null" >
+        #{oriCreater,jdbcType=VARCHAR},
+      </if>
+      <if test="oriCreatertime != null" >
+        #{oriCreatertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="oriCreatedept != null" >
+        #{oriCreatedept,jdbcType=VARCHAR},
+      </if>
+      <if test="oriProjectteam != null" >
+        #{oriProjectteam,jdbcType=VARCHAR},
+      </if>
+      <if test="oriStatus != null" >
+        #{oriStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="oriHandler != null" >
+        #{oriHandler,jdbcType=VARCHAR},
+      </if>
+      <if test="oriSovler != null" >
+        #{oriSovler,jdbcType=VARCHAR},
+      </if>
+      <if test="oriPublisher != null" >
+        #{oriPublisher,jdbcType=VARCHAR},
+      </if>
+      <if test="oriPublishtime != null" >
+        #{oriPublishtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="oriPlanendtime != null" >
+        #{oriPlanendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="oriLaterendtime != null" >
+        #{oriLaterendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="oriRealendtime != null" >
+        #{oriRealendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="oriHandletime != null" >
+        #{oriHandletime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="oriSchedule != null" >
+        #{oriSchedule,jdbcType=VARCHAR},
+      </if>
+      <if test="oriRcstatus != null" >
+        #{oriRcstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="oriArea != null" >
+        #{oriArea,jdbcType=VARCHAR},
+      </if>
+      <if test="oriDatasource != null" >
+        #{oriDatasource,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhiye.model.OaReuirementInfo" >
+    update OA_REQUIREMENT_INFO
+    <set >
+      <if test="oriId != null" >
+        ORI_ID = #{oriId,jdbcType=VARCHAR},
+      </if>
+      <if test="oriStage != null" >
+        ORI_STAGE = #{oriStage,jdbcType=VARCHAR},
+      </if>
+      <if test="oriType != null" >
+        ORI_TYPE = #{oriType,jdbcType=VARCHAR},
+      </if>
+      <if test="oriProductname != null" >
+        ORI_PRODUCTNAME = #{oriProductname,jdbcType=VARCHAR},
+      </if>
+      <if test="oriCusname != null" >
+        ORI_CUSNAME = #{oriCusname,jdbcType=VARCHAR},
+      </if>
+      <if test="oriTitle != null" >
+        ORI_TITLE = #{oriTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="oriKeyword != null" >
+        ORI_KEYWORD = #{oriKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="oriDescribe != null" >
+        ORI_DESCRIBE = #{oriDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="oriAdvice != null" >
+        ORI_ADVICE = #{oriAdvice,jdbcType=VARCHAR},
+      </if>
+      <if test="oriPriority != null" >
+        ORI_PRIORITY = #{oriPriority,jdbcType=VARCHAR},
+      </if>
+      <if test="oriPrioritymemo != null" >
+        ORI_PRIORITYMEMO = #{oriPrioritymemo,jdbcType=VARCHAR},
+      </if>
+      <if test="oriCreater != null" >
+        ORI_CREATER = #{oriCreater,jdbcType=VARCHAR},
+      </if>
+      <if test="oriCreatertime != null" >
+        ORI_CREATERTIME = #{oriCreatertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="oriCreatedept != null" >
+        ORI_CREATEDEPT = #{oriCreatedept,jdbcType=VARCHAR},
+      </if>
+      <if test="oriProjectteam != null" >
+        ORI_PROJECTTEAM = #{oriProjectteam,jdbcType=VARCHAR},
+      </if>
+      <if test="oriStatus != null" >
+        ORI_STATUS = #{oriStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="oriHandler != null" >
+        ORI_HANDLER = #{oriHandler,jdbcType=VARCHAR},
+      </if>
+      <if test="oriSovler != null" >
+        ORI_SOVLER = #{oriSovler,jdbcType=VARCHAR},
+      </if>
+      <if test="oriPublisher != null" >
+        ORI_PUBLISHER = #{oriPublisher,jdbcType=VARCHAR},
+      </if>
+      <if test="oriPublishtime != null" >
+        ORI_PUBLISHTIME = #{oriPublishtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="oriPlanendtime != null" >
+        ORI_PLANENDTIME = #{oriPlanendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="oriLaterendtime != null" >
+        ORI_LATERENDTIME = #{oriLaterendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="oriRealendtime != null" >
+        ORI_REALENDTIME = #{oriRealendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="oriHandletime != null" >
+        ORI_HANDLETIME = #{oriHandletime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="oriSchedule != null" >
+        ORI_SCHEDULE = #{oriSchedule,jdbcType=VARCHAR},
+      </if>
+      <if test="oriRcstatus != null" >
+        ORI_RCSTATUS = #{oriRcstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="oriArea != null" >
+        ORI_AREA = #{oriArea,jdbcType=VARCHAR},
+      </if>
+      <if test="oriDatasource != null" >
+        ORI_DATASOURCE = #{oriDatasource,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ORI_UUID = #{oriUuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhiye.model.OaReuirementInfo" >
+    update OA_REQUIREMENT_INFO
+    set ORI_ID = #{oriId,jdbcType=VARCHAR},
+      ORI_STAGE = #{oriStage,jdbcType=VARCHAR},
+      ORI_TYPE = #{oriType,jdbcType=VARCHAR},
+      ORI_PRODUCTNAME = #{oriProductname,jdbcType=VARCHAR},
+      ORI_CUSNAME = #{oriCusname,jdbcType=VARCHAR},
+      ORI_TITLE = #{oriTitle,jdbcType=VARCHAR},
+      ORI_KEYWORD = #{oriKeyword,jdbcType=VARCHAR},
+      ORI_DESCRIBE = #{oriDescribe,jdbcType=VARCHAR},
+      ORI_ADVICE = #{oriAdvice,jdbcType=VARCHAR},
+      ORI_PRIORITY = #{oriPriority,jdbcType=VARCHAR},
+      ORI_PRIORITYMEMO = #{oriPrioritymemo,jdbcType=VARCHAR},
+      ORI_CREATER = #{oriCreater,jdbcType=VARCHAR},
+      ORI_CREATERTIME = #{oriCreatertime,jdbcType=TIMESTAMP},
+      ORI_CREATEDEPT = #{oriCreatedept,jdbcType=VARCHAR},
+      ORI_PROJECTTEAM = #{oriProjectteam,jdbcType=VARCHAR},
+      ORI_STATUS = #{oriStatus,jdbcType=VARCHAR},
+      ORI_HANDLER = #{oriHandler,jdbcType=VARCHAR},
+      ORI_SOVLER = #{oriSovler,jdbcType=VARCHAR},
+      ORI_PUBLISHER = #{oriPublisher,jdbcType=VARCHAR},
+      ORI_PUBLISHTIME = #{oriPublishtime,jdbcType=TIMESTAMP},
+      ORI_PLANENDTIME = #{oriPlanendtime,jdbcType=TIMESTAMP},
+      ORI_LATERENDTIME = #{oriLaterendtime,jdbcType=TIMESTAMP},
+      ORI_REALENDTIME = #{oriRealendtime,jdbcType=TIMESTAMP},
+      ORI_HANDLETIME = #{oriHandletime,jdbcType=TIMESTAMP},
+      ORI_SCHEDULE = #{oriSchedule,jdbcType=VARCHAR},
+      ORI_RCSTATUS = #{oriRcstatus,jdbcType=VARCHAR},
+      ORI_AREA = #{oriArea,jdbcType=VARCHAR},
+      ORI_DATASOURCE = #{oriDatasource,jdbcType=VARCHAR}
+    where ORI_UUID = #{oriUuid,jdbcType=VARCHAR}
+  </update>
+    <!-- zyw add start-->
+  <select id="expExcelDataTotal" resultMap="totalResult">
+    select * from OA_REQUIREMENT_INFO 
+  </select>
+   <insert id="insertBatch" parameterType="com.zhiye.web.dto.ExcelDataImplDto">
+    insert into OA_REQUIREMENT_INFO (
+        ORI_UUID,
+        ORI_ID,
+        ORI_STAGE,
+        ORI_TYPE,
+        ORI_PRODUCTNAME,
+        ORI_CUSNAME,
+        ORI_TITLE,
+        ORI_KEYWORD,
+        ORI_DESCRIBE,
+        ORI_ADVICE,
+        ORI_PRIORITY,
+        ORI_PRIORITYMEMO,
+        ORI_CREATER,
+        ORI_CREATERTIME,
+        ORI_CREATEDEPT,
+        ORI_PROJECTTEAM,
+        ORI_STATUS,
+        ORI_HANDLER,
+        ORI_SOVLER,
+        ORI_PUBLISHER,
+        ORI_PUBLISHTIME,
+        ORI_PLANENDTIME,
+        ORI_LATERENDTIME,
+        ORI_REALENDTIME,
+        ORI_HANDLETIME,
+        ORI_SCHEDULE,
+        ORI_RCSTATUS,
+        ORI_AREA,
+        ORI_DATASOURCE) 
+	<foreach collection="list" item="recordlist" separator="UNION ALL" open="(" close=")">
+		SELECT 	
+		        #{recordlist.uuid,jdbcType=VARCHAR},
+		        #{recordlist.id,jdbcType=VARCHAR},
+       			#{recordlist.stage,jdbcType=VARCHAR}, 
+       			#{recordlist.type,jdbcType=VARCHAR},
+       			#{recordlist.productName,jdbcType=VARCHAR},
+				#{recordlist.cusName,jdbcType=VARCHAR},
+				#{recordlist.title,jdbcType=VARCHAR},
+				#{recordlist.keyWord,jdbcType=VARCHAR},
+				#{recordlist.describe,jdbcType=VARCHAR},
+				#{recordlist.advice,jdbcType=VARCHAR},
+				#{recordlist.priority,jdbcType=VARCHAR},
+				#{recordlist.priorityMemo,jdbcType=VARCHAR},
+       			#{recordlist.creater,jdbcType=VARCHAR},
+       			TO_DATE(#{recordlist.createrTime,jdbcType=VARCHAR},'yyyy-mm-dd'),
+       			#{recordlist.createDept,jdbcType=VARCHAR},
+				#{recordlist.projectTeam,jdbcType=VARCHAR},
+				#{recordlist.status,jdbcType=VARCHAR},
+				#{recordlist.handler,jdbcType=VARCHAR},
+				#{recordlist.sovler,jdbcType=VARCHAR},
+				#{recordlist.publisher,jdbcType=VARCHAR},
+				TO_DATE(#{recordlist.publishTime,jdbcType=VARCHAR},'yyyy-mm-dd'),
+				TO_DATE(#{recordlist.planEndTime,jdbcType=VARCHAR},'yyyy-mm-dd'),
+				TO_DATE(#{recordlist.laterEndTime,jdbcType=VARCHAR},'yyyy-mm-dd'),
+				TO_DATE(#{recordlist.realEndTime,jdbcType=VARCHAR},'yyyy-mm-dd'),
+				TO_DATE(#{recordlist.handleTime,jdbcType=VARCHAR},'yyyy-mm-dd'),
+				#{recordlist.schedule,jdbcType=VARCHAR},
+				#{recordlist.rcStatus,jdbcType=VARCHAR},
+				#{recordlist.area,jdbcType=VARCHAR},
+				#{recordlist.datasource,jdbcType=VARCHAR} 
+		from DUAL
+	</foreach>
+  </insert>
+  <!-- zyw add end -->
+</mapper>
