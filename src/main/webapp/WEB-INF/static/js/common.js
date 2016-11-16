@@ -50,7 +50,8 @@ var ZhiyeCommon = (function(){
 				msg : "<span style=\"color:#bd4247\">" + msg + "</span>",
 				icon : icon,
 				showType:'slide',
-				timeout:1500,
+				timeout:15000,
+				height:'400px',  
 				style:{
 					right:'',
 					top:document.body.scrollTop+document.documentElement.scrollTop,

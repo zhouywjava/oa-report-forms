@@ -3,7 +3,7 @@ package com.zhiye.web.dto;
 import java.util.List;
 
 @SuppressWarnings("rawtypes")
-public class ListResponseDto {
+public class ListResponseDto extends BaseDataDto {
 
 	private long total;
 

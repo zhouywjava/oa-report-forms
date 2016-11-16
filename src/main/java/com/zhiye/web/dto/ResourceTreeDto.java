@@ -9,7 +9,7 @@ import java.util.List;
  * @author Administrator
  * 
  */
-public class ResourceTreeDto {
+public class ResourceTreeDto extends BaseDataDto {
 
 	private String id;
 	private String name;

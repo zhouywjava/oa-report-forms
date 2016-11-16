@@ -6,7 +6,7 @@ import java.util.List;
 import com.zhiye.constants.ErrorCode;
 
 @SuppressWarnings("rawtypes")
-public class ResponseDto implements Serializable{
+public class ResponseDto extends BaseDataDto implements Serializable{
 	private static final long serialVersionUID = 983389951099937464L;
 	private boolean success = true;
 	private String errorCode;
