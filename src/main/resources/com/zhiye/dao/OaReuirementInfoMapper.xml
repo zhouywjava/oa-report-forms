@@ -33,18 +33,18 @@
     <result column="ORI_DATASOURCE" property="oriDatasource" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="totalResult" type="com.zhiye.web.dto.ExcelDataTotalDto" >
-    <result column="oriId" property="id" jdbcType="VARCHAR" />
-    <result column="oriArea" property="area" jdbcType="VARCHAR" />
-    <result column="oriObject" property="object" jdbcType="VARCHAR" />
-    <result column="oriMonthCompleteRate" property="monthCompleteRate" jdbcType="DOUBLE" />
-    <result column="oriMonthInTimeRate" property="monthInTimeRate" jdbcType="DOUBLE" />
-    <result column="oriCompleteNum" property="completeNum" jdbcType="DOUBLE" />
-    
-    <result column="oriPostphoneNum" property="postphoneNum" jdbcType="DOUBLE" />
-    <result column="oriRejectNum" property="rejectNum" jdbcType="DOUBLE" />
-    
-    <result column="oriProgressNum" property="progressNum" jdbcType="DOUBLE" />
-    <result column="oriTotal" property="total" jdbcType="DOUBLE" />
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="object" property="object" jdbcType="VARCHAR" />
+    <result column="monthCompleteRate" property="monthCompleteRate" jdbcType="VARCHAR" />
+    <result column="monthInTimeRate" property="monthInTimeRate" jdbcType="VARCHAR" />
+    <result column="completeNum" property="completeNum" jdbcType="VARCHAR" />   
+    <result column="postphoneNum" property="postphoneNum" jdbcType="VARCHAR" />
+    <result column="rejectNum" property="rejectNum" jdbcType="VARCHAR" />    
+    <result column="progressNum" property="progressNum" jdbcType="VARCHAR" />
+    <result column="total" property="total" jdbcType="VARCHAR" />
+    <result column="ontimeNum" property="ontimeNum" jdbcType="VARCHAR" />
+     <result column="ontimeTotal" property="ontimeTotal" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     ORI_UUID, ORI_ID, ORI_STAGE, ORI_TYPE, ORI_PRODUCTNAME, ORI_CUSNAME, ORI_TITLE, ORI_KEYWORD, 
@@ -390,7 +390,46 @@
   </update>
     <!-- zyw add start-->
   <select id="expExcelDataTotal" resultMap="totalResult">
-    select * from OA_REQUIREMENT_INFO 
+     select 
+      w.completeNum "completeNum",
+      w.postphoneNum "postphoneNum",
+      w.rejectNum "rejectNum",
+      w.progressNum "progressNum",
+      w.total "total",
+      w.area "area",
+      w.obj "object",
+      w.ontimeNum "ontimeNum",
+      w.ontimeTotal "ontimeTotal",
+      rownum "id"
+      from 
+      (
+      select 
+        (select count(1) from OA_REQUIREMENT_INFO a where a.ORI_DATASOURCE = '0' and a.ORI_STATUS in ('完成','客户确认') and a.ORI_AREA = t.ORI_AREA) completeNum,
+        (select count(1) from OA_REQUIREMENT_INFO b where b.ORI_DATASOURCE = '0' and b.ORI_STATUS in ('否决') and b.ORI_AREA = t.ORI_AREA) postphoneNum,
+        (select count(1) from OA_REQUIREMENT_INFO c where c.ORI_DATASOURCE = '0' and c.ORI_STATUS in ('暂缓') and c.ORI_AREA = t.ORI_AREA) rejectNum,
+        (select count(1) from OA_REQUIREMENT_INFO d where d.ORI_DATASOURCE = '0' and d.ORI_STATUS in ('建立','需求分配','客服分析','技术分析','技术处理','测试','待发布') and d.ORI_AREA = t.ORI_AREA) progressNum,
+        (select count(1) from OA_REQUIREMENT_INFO e where e.ORI_DATASOURCE = '0' and e.ORI_STATUS in ('完成','客户确认','否决','暂缓','建立','需求分配','客服分析','技术分析','技术处理','测试','待发布') and e.ORI_AREA = t.ORI_AREA) total,
+        <![CDATA[ (select count(ORI_UUID) from OA_REQUIREMENT_INFO f where f.ORI_STATUS in ('完成','客户确认','否决','暂缓') and  nvl(f.ORI_REALENDTIME,f.ORI_HANDLETIME)  <= TRUNC(nvl(f.ORI_PLANENDTIME,f.ORI_LATERENDTIME) + 7) and f.ORI_DATASOURCE = '0' and f.ORI_AREA = t.ORI_AREA)]]>   ontimeNum,
+        0 ontimeTotal,
+        t.ORI_AREA area,
+        '工程' obj
+      from OA_REQUIREMENT_INFO t group by t.ORI_AREA 
+      union all
+        select 
+        (select count(1) from OA_REQUIREMENT_INFO a where a.ORI_DATASOURCE = '0' and （a.ORI_STATUS = '待发布' or (a.ORI_STATUS in ('完成','客户确认') and (a.ORI_SCHEDULE like '%技术分析%' or a.ORI_SCHEDULE like '%发布%'))） and a.ORI_AREA = t.ORI_AREA) completeNum,
+        0 postphoneNum,
+        0 rejectNum,
+        (select count(1) from OA_REQUIREMENT_INFO d where d.ORI_DATASOURCE = '0' and d.ORI_STATUS in （'技术分析','技术处理','测试') and d.ORI_AREA = t.ORI_AREA) progressNum,
+        (select count(1) from OA_REQUIREMENT_INFO e where e.ORI_DATASOURCE = '0' and （e.ORI_STATUS in （'技术分析','技术处理','测试') or ((e.ORI_STATUS = '待发布' or (e.ORI_STATUS in ('完成','客户确认') and (e.ORI_SCHEDULE like '%技术分析%' or e.ORI_SCHEDULE like '%发布%')))))  and e.ORI_AREA = t.ORI_AREA) total,
+        (select count(ORI_UUID) from (
+        <![CDATA[ select f.ORI_UUID,f.ORI_AREA from OA_REQUIREMENT_INFO f where f.ORI_STATUS='待发布' and f.ORI_HANDLETIME <= f.ORI_PLANENDTIME and f.ORI_DATASOURCE = '1' ]]>  
+        union 
+        <![CDATA[ select g.ORI_UUID,g.ORI_AREA from OA_REQUIREMENT_INFO g where g.ORI_STATUS in ('客户确认','完成') and (g.ORI_SCHEDULE like '%技术分析%' or g.ORI_SCHEDULE like '%发布%') and nvl(g.ORI_PUBLISHTIME,g.ORI_HANDLETIME) <= g.ORI_PLANENDTIME and g.ORI_DATASOURCE = '1') h where h.ORI_AREA = t.ORI_AREA ]]>  ) ontimeNum,
+        (select count(1) from OA_REQUIREMENT_INFO h where h.ORI_DATASOURCE = '1'and h.ORI_AREA = t.ORI_AREA and (h.ORI_STATUS in （ '技术分析','技术处理','待发布','测试') or (h.ORI_STATUS in('客户确认','完成') and (h.ORI_SCHEDULE like '%技术分析%' or h.ORI_SCHEDULE like '%发布%')))) ontimeTotal,
+        t.ORI_AREA area,
+        '技术' obj
+        from OA_REQUIREMENT_INFO t group by t.ORI_AREA
+      ) w order by w.area ,rownum  
   </select>
    <insert id="insertBatch" parameterType="com.zhiye.web.dto.ExcelDataImplDto">
     insert into OA_REQUIREMENT_INFO (

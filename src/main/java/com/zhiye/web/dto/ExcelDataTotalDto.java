@@ -23,25 +23,29 @@ public class ExcelDataTotalDto extends BaseDataDto{
 	private String object;
 	
 	@ExcelVOAttribute(name = "当月完成率", column = "D")
-	private Double monthCompleteRate;
+	private String monthCompleteRate;
 	
 	@ExcelVOAttribute(name = "当月按时率", column = "E")
-	private Double monthInTimeRate;
+	private String monthOnTimeRate;
 
 	@ExcelVOAttribute(name = "完成", column = "F")
-	private Double completeNum;
+	private String completeNum;
 	
 	@ExcelVOAttribute(name = "暂缓", column = "G")
-	private Double postphoneNum;
+	private String postphoneNum;
 	
 	@ExcelVOAttribute(name = "否决", column = "H")
-	private Double rejectNum;
+	private String rejectNum;
 	
 	@ExcelVOAttribute(name = "在执行", column = "I")
-	private Double progressNum;
+	private String progressNum;
 	
 	@ExcelVOAttribute(name = "总数", column = "J")
-	private Double total;
+	private String total;
+	
+	private String ontimeNum;//按时完成数
+	
+	private String ontimeTotal;//技术类按时率不能按照上面的总数，得重新计算
 
 	public String getId() {
 		return id;
@@ -67,60 +71,76 @@ public class ExcelDataTotalDto extends BaseDataDto{
 		this.object = object;
 	}
 
-	public Double getMonthCompleteRate() {
+	public String getMonthCompleteRate() {
 		return monthCompleteRate;
 	}
 
-	public void setMonthCompleteRate(Double monthCompleteRate) {
+	public void setMonthCompleteRate(String monthCompleteRate) {
 		this.monthCompleteRate = monthCompleteRate;
 	}
 
-	public Double getMonthInTimeRate() {
-		return monthInTimeRate;
+	public String getMonthOnTimeRate() {
+		return monthOnTimeRate;
 	}
 
-	public void setMonthInTimeRate(Double monthInTimeRate) {
-		this.monthInTimeRate = monthInTimeRate;
+	public void setMonthOnTimeRate(String monthOnTimeRate) {
+		this.monthOnTimeRate = monthOnTimeRate;
 	}
 
-	public Double getCompleteNum() {
+	public String getCompleteNum() {
 		return completeNum;
 	}
 
-	public void setCompleteNum(Double completeNum) {
+	public void setCompleteNum(String completeNum) {
 		this.completeNum = completeNum;
 	}
 
-	public Double getPostphoneNum() {
+	public String getPostphoneNum() {
 		return postphoneNum;
 	}
 
-	public void setPostphoneNum(Double postphoneNum) {
+	public void setPostphoneNum(String postphoneNum) {
 		this.postphoneNum = postphoneNum;
 	}
 
-	public Double getRejectNum() {
+	public String getRejectNum() {
 		return rejectNum;
 	}
 
-	public void setRejectNum(Double rejectNum) {
+	public void setRejectNum(String rejectNum) {
 		this.rejectNum = rejectNum;
 	}
 
-	public Double getProgressNum() {
+	public String getProgressNum() {
 		return progressNum;
 	}
 
-	public void setProgressNum(Double progressNum) {
+	public void setProgressNum(String progressNum) {
 		this.progressNum = progressNum;
 	}
 
-	public Double getTotal() {
+	public String getTotal() {
 		return total;
 	}
 
-	public void setTotal(Double total) {
+	public void setTotal(String total) {
 		this.total = total;
+	}
+
+	public String getOntimeNum() {
+		return ontimeNum;
+	}
+
+	public void setOntimeNum(String ontimeNum) {
+		this.ontimeNum = ontimeNum;
+	}
+
+	public String getOntimeTotal() {
+		return ontimeTotal;
+	}
+
+	public void setOntimeTotal(String ontimeTotal) {
+		this.ontimeTotal = ontimeTotal;
 	}
 	
 }

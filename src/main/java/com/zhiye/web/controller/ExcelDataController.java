@@ -5,6 +5,7 @@ import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -133,9 +134,40 @@ public class ExcelDataController extends BaseController {
 			// 创建工具类
 			ExcelUtil<ExcelDataTotalDto> util = new ExcelUtil<ExcelDataTotalDto>(ExcelDataTotalDto.class);
 			//汇总计算
-			List<ExcelDataTotalDto> list = excelDataImputService.expExcelDataTotal();
+			List<ExcelDataTotalDto> totalList = excelDataImputService.expExcelDataTotal();
+			//
+			DecimalFormat df = new DecimalFormat("#.00");
+			if(totalList != null && totalList.size()>0){
+			//计算出当月完成率和当月按时率
+				ExcelDataTotalDto excelDataTotalDto = null;
+				for(int i = 0; i <totalList.size();i++){
+					excelDataTotalDto = totalList.get(i);
+					if("工程".equals(excelDataTotalDto.getObject())){
+						Double completeNum = Double.valueOf(excelDataTotalDto.getCompleteNum());
+						Double postphoneNum = Double.valueOf(excelDataTotalDto.getPostphoneNum());
+						Double rejectNum = Double.valueOf(excelDataTotalDto.getRejectNum());
+						Double totalNum = Double.valueOf(excelDataTotalDto.getTotal());
+						Double ontimeNum = Double.valueOf(excelDataTotalDto.getOntimeNum()); 
+						Double monthCompleteRate = (completeNum+postphoneNum+rejectNum)/totalNum * 100;
+						Double monthOnTimeRate = ontimeNum/totalNum * 100;
+						excelDataTotalDto.setMonthCompleteRate(df.format(monthCompleteRate)+"%");
+						excelDataTotalDto.setMonthOnTimeRate(df.format(monthOnTimeRate)+"%");
+						excelDataTotalDto.setId(i+1 +"");
+					}else if("技术".equals(excelDataTotalDto.getObject())){
+						Double completeNum = Double.valueOf(excelDataTotalDto.getCompleteNum());
+						Double totalNum = Double.valueOf(excelDataTotalDto.getTotal());
+						Double ontimeNum = Double.valueOf(excelDataTotalDto.getOntimeNum()); 					
+						Double monthCompleteRate = completeNum/totalNum * 100;
+						Double ontimetotalNum = Double.valueOf(excelDataTotalDto.getOntimeTotal());
+						Double monthOnTimeRate = ontimeNum/ontimetotalNum * 100;
+						excelDataTotalDto.setMonthCompleteRate(df.format(monthCompleteRate)+"%");
+						excelDataTotalDto.setMonthOnTimeRate(df.format(monthOnTimeRate)+"%");
+						excelDataTotalDto.setId(i+1 +"");
+					}
+				}
+			
 			// 导出
-			util.exportExcel(list, "OA需求处理情况汇总表", os); 
+			util.exportExcel(totalList, "OA需求处理情况汇总表", os); 
 	        
 	        byte[] content = os.toByteArray();
 	        InputStream is = new ByteArrayInputStream(content);
@@ -153,19 +185,20 @@ public class ExcelDataController extends BaseController {
             while (-1 != (bytesRead = bis.read(buff, 0, buff.length))) {
                 bos.write(buff, 0, bytesRead);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseDto(false, ErrorCode.SYSTEM_ERROR);
-        } finally {
-            try{
-            	if (bis != null)
-                    bis.close();
-                if (bos != null)
-                    bos.close();
-            }catch(Exception e){
-            	e.printStackTrace();
-            }
-        }
+		    }
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseDto(false, ErrorCode.SYSTEM_ERROR);
+		} finally {
+			try{
+				if (bis != null)
+					bis.close();
+				if (bos != null)
+					bos.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
 		return null;
 	}
 	
